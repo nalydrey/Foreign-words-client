@@ -6,7 +6,6 @@ export const Layout = () => {
     <>
     <Header/>
       <main className="grow"><Outlet/></main>
-    <footer className="bg-blue-500">footer</footer>
   </>
   )
 }
