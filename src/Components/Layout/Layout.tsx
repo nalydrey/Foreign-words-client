@@ -5,7 +5,7 @@ export const Layout = () => {
   return (
     <>
     <Header/>
-      <main className="grow"><Outlet/></main>
+      <main className="grow h-full overflow-hidden"><Outlet/></main>
   </>
   )
 }
