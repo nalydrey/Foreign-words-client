@@ -4,6 +4,7 @@ import { Path } from '../../enums/Path'
 import { Link, useLocation } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../hooks/toolkitHooks'
 import { AppSliceInt, selectMode } from '../../slices/appSlice'
+import { Bars3Icon } from '@heroicons/react/20/solid'
 
 export const Header = () => {
 
@@ -20,13 +21,13 @@ export const Header = () => {
   return (
     <header className="bg-blue-500/60">
       <div className=" container mx-auto flex justify-between items-center py-2">
-        <div className='text-4xl lg:text-5xl font-bold text-sky-900 cursor-pointer hover:text-sky-300 '>
+        <div className='text-2xl lg:text-5xl font-bold text-sky-900 cursor-pointer hover:text-sky-300 '>
           <Link to={Path.HOME}>LOGO</Link>
         </div>
         <nav>
           {
             location.pathname === Path.GAME &&
-            <ul className='flex gap-4 lg:gap-5'>
+            <ul className='gap-4 lg:gap-5 hidden md:flex'>
               <li className={` text-xl lg:text-2xl font-medium cursor-pointer hover:text-sky-300 ${app.mode === 'learn' ? 'text-green-300':''}`}
                 onClick = {() => handlerMode('learn')}
               >Learn</li>
@@ -48,7 +49,10 @@ export const Header = () => {
             </ul>
           }
         </nav>
-        <div className='h-14 w-14 rounded-full shadow-2xl cursor-pointer overflow-hidden'>
+        <button className='w-10 h-10 border p-[2px] rounded-lg bg-gray-700/50 text-white shadow-light'>
+          <Bars3Icon />
+        </button>
+        <div className='h-10 w-10 md:h-14 md:w-14 rounded-full shadow-2xl cursor-pointer overflow-hidden'>
           <img src={avatar} alt="" />
         </div>
       </div>

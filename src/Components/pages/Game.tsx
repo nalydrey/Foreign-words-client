@@ -165,7 +165,7 @@ export const Game = () => {
 
   return (
     <div className='container mx-auto'>
-        <div className='mb-52 mt-5 flex justify-center gap-20'>
+        <div className='mb-10 lg:mb-52 mt-5 flex justify-center gap-5 flex-wrap  md:gap-20'>
             <CountDisplay 
                 title = 'Words'
                 counter = {words.length}
@@ -180,7 +180,7 @@ export const Game = () => {
              />
         </div>
         <div className='flex justify-center'>
-        <div className='border border-white w-[400px] h-96 rounded-2xl bg-gray-700/50 backdrop-blur-sm flex flex-col shadow-deep'>
+        <div className='border border-white m-3 max-w-[400px] w-full h-96 rounded-2xl bg-gray-700/50 backdrop-blur-sm flex flex-col shadow-deep'>
             <div className='grow'>
                 <span 
                     className='text-4xl text-gray-300 text-center flex h-full justify-center items-center'
@@ -188,40 +188,38 @@ export const Game = () => {
                     {isPlay ? !!words.length &&  words[currentIndex][words[currentIndex].direction ? 'foreignText': 'translatedText' ] : 'Start?'}
                 </span>
             </div>
-            <div>
+            <div className=' p-3 flex justify-center items-center gap-5'>
+                <ButtonMain
+                    isVisible = {!isPlay}
+                    endIcon= {<PlayIcon className=' fill-green-500'/>}
+                    title='Start'
+                    onClick={handlerStart}
+                />
+                <ButtonMain
+                    isVisible = {isPlay && !isShowAnsver}
+                    endIcon= {<PlayIcon className='fill-green-500'/>}
+                    title='Show'
+                    onClick={handlerShow}
+                />
+                <ButtonMain
+                    isVisible = {isPause || isShowAnsver && app.mode === 'learn'}
+                    endIcon= {<ForwardIcon className='fill-sky-500'/>}
+                    title='Next'
+                    onClick={handlerNext}
+                />
+                <ButtonMain
+                    isVisible = {app.mode !== 'learn' && isPlay && isShowAnsver && !isPause}
+                    startIcon= {<CheckIcon className='fill-green-500'/>}
+                    title='Properly'
+                    onClick={() => handlerAnsver(true)}
+                />
+                <ButtonMain
+                    isVisible = {app.mode !== 'learn' && isPlay && isShowAnsver && !isPause}
+                    startIcon= {<NoSymbolIcon className='fill-red-500'/>}
+                    title='Wrong'
+                    onClick={() => handlerAnsver(false)}
+                />
             </div>
-                <div className=' p-3 flex justify-center items-center gap-5'>
-                   <ButtonMain
-                        isVisible = {!isPlay}
-                        endIcon= {<PlayIcon className=' fill-green-500'/>}
-                        title='Start'
-                        onClick={handlerStart}
-                    />
-                    <ButtonMain
-                        isVisible = {isPlay && !isShowAnsver}
-                        endIcon= {<PlayIcon className='fill-green-500'/>}
-                        title='Show'
-                        onClick={handlerShow}
-                    />
-                    <ButtonMain
-                        isVisible = {isPause || isShowAnsver && app.mode === 'learn'}
-                        endIcon= {<ForwardIcon className='fill-sky-500'/>}
-                        title='Next'
-                        onClick={handlerNext}
-                    />
-                    <ButtonMain
-                        isVisible = {app.mode !== 'learn' && isPlay && isShowAnsver && !isPause}
-                        startIcon= {<CheckIcon className='fill-green-500'/>}
-                        title='Properly'
-                        onClick={() => handlerAnsver(true)}
-                    />
-                    <ButtonMain
-                        isVisible = {app.mode !== 'learn' && isPlay && isShowAnsver && !isPause}
-                        startIcon= {<NoSymbolIcon className='fill-red-500'/>}
-                        title='Wrong'
-                        onClick={() => handlerAnsver(false)}
-                    />
-                </div>
             </div>
         </div>
         {/* <Popup
