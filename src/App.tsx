@@ -3,32 +3,28 @@ import { Layout } from "./Components/Layout/Layout"
 import { Home } from "./Components/pages/Home"
 import { Game } from "./Components/pages/Game"
 import { Setting } from "./Components/pages/Setting"
-import { Login } from "./Components/pages/Login"
+import { UserForm } from "./Components/pages/UserForm"
 import { Path } from "./enums/Path"
 import { AllWords } from "./Components/pages/AllWords"
-import { Register } from "./Components/pages/Register"
 import { useEffect } from "react"
 import { useAppDispatch, useAppSelector } from "./hooks/toolkitHooks"
 import { Storage } from "./enums/Storage"
-import { getMe } from "./slices/currentUserSlice"
+import { createUser, getMe, login } from "./slices/currentUserSlice"
+import { FormModel } from "./models/formModel"
 
 function App() {
 
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const currentUser = useAppSelector(state => state.currentUser.user)
-  console.log('reset');
   
 
   useEffect(()=>{
-    console.log(currentUser);
-    
     if(currentUser){
-      console.log('!');
       navigate(Path.HOME)
     }
 
-  }, [currentUser])
+  }, [currentUser?.id])
 
   useEffect(()=>{
     const userId = localStorage.getItem(Storage.USER_ID)
@@ -37,6 +33,13 @@ function App() {
     }
   },[])
 
+  const handlerLogin = (form: FormModel) => {
+    dispatch(login(form))
+  }
+  const handlerRegister = (form: FormModel) => {
+    dispatch(createUser(form))
+  }
+
   return (
    <>
     <Routes>
@@ -44,8 +47,18 @@ function App() {
         <Route index element = {<Home/>}/>
         <Route path={Path.SETTING} element= {<Setting/>}/>
         <Route path={Path.GAME} element= {<Game/>}/>
-        <Route path={Path.LOGIN} element= {<Login/>}/>
-        <Route path={Path.REGISTER} element= {<Register/>}/>
+        <Route path={Path.LOGIN} element= {<UserForm 
+                                            title="Login" 
+                                            linkText="I don't have an account"
+                                            pathTo={Path.REGISTER}
+                                            onSubmit={handlerLogin}
+                                          />}/>
+        <Route path={Path.REGISTER} element= {<UserForm 
+                                                title="Register" 
+                                                linkText="I already have an account"
+                                                pathTo={Path.LOGIN}
+                                                onSubmit={handlerRegister}
+                                              />}/>
         <Route path={Path.WORDS} element= {<AllWords/>}/>
       </Route>
     </Routes>

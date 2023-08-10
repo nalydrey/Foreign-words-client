@@ -1,9 +1,10 @@
-import { PayloadAction, PrepareAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { UserModel } from "../models/userModel";
 import axios from "../axios";
 import { Endpoint } from "../enums/Endpoints";
 import { FormModel } from "../models/formModel";
 import { Storage } from "../enums/Storage";
+import { Settings } from "../models/settingModel";
 
 interface UserSlice {
     user: UserModel | null,
@@ -18,9 +19,9 @@ const initialState: UserSlice = {
 export const createUser = createAsyncThunk<UserModel, FormModel>(
     'currentUser/createUser',
     async (form) => {
-        const {data} = await axios.post<UserModel>(Endpoint.USERS, form)
-        localStorage.setItem(Storage.USER_ID, data.id.toString())
-        return data
+        const {data} = await axios.post<{user: UserModel}>(Endpoint.USERS, form)
+        localStorage.setItem(Storage.USER_ID, data.user.id.toString())
+        return data.user
     }
 )
 
@@ -57,6 +58,16 @@ export const currenUserSlice = createSlice ({
                     payload: null
                 }
             }
+        },
+        changeSetting: (state, action: PayloadAction<{name: keyof Settings, value: number}>) => {
+            if(state.user && (action.payload.name === 'lastWords' || action.payload.name === 'pause')){
+                state.user.settings[action.payload.name] = action.payload.value
+            }
+        },
+        toggleSetting: (state, action: PayloadAction<{name: keyof Settings, value: boolean}>) => {
+            if(state.user && action.payload.name === 'timer'){
+                state.user.settings[action.payload.name] = !action.payload.value
+            }
         }
     },
     extraReducers: (build) => {
@@ -75,6 +86,6 @@ export const currenUserSlice = createSlice ({
 
 export default currenUserSlice.reducer
 
-export const {logOut} = currenUserSlice.actions
+export const {logOut, changeSetting, toggleSetting} = currenUserSlice.actions
 
 

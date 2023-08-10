@@ -3,18 +3,24 @@ import avatar from '../../assets/defaultAva.png'
 import { Path } from '../../enums/Path'
 import { Link, useLocation } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../hooks/toolkitHooks'
-import { AppSliceInt, selectMode } from '../../slices/appSlice'
+import { AppSliceInt, menuControl, selectMode } from '../../slices/appSlice'
 import { Bars3Icon } from '@heroicons/react/20/solid'
 
 export const Header = () => {
 
   const location = useLocation()
+  console.log(location);
+  
 
   const dispatch = useAppDispatch()
   const app = useAppSelector(state => state.app)
 
   const handlerMode = (mode: AppSliceInt['mode']) => {
     dispatch(selectMode(mode))
+  }
+
+  const handlerMenu = () => {
+    dispatch(menuControl(true))
   }
   
 
@@ -49,9 +55,17 @@ export const Header = () => {
             </ul>
           }
         </nav>
-        <button className='w-10 h-10 border p-[2px] rounded-lg bg-gray-700/50 text-white shadow-light'>
-          <Bars3Icon />
-        </button>
+
+        {
+          location.pathname === Path.GAME &&
+          <button 
+            className='w-10 h-10 border p-[2px] rounded-lg bg-gray-700/50 text-white shadow-light md:hidden'
+            onClick={handlerMenu}
+          >
+            <Bars3Icon />
+          </button>
+        }
+        
         <div className='h-10 w-10 md:h-14 md:w-14 rounded-full shadow-2xl cursor-pointer overflow-hidden'>
           <img src={avatar} alt="" />
         </div>
