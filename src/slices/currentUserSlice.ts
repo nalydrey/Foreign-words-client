@@ -30,7 +30,10 @@ export const login = createAsyncThunk<UserModel, FormModel>(
     async (form) => {
         const query = Object.entries(form).map(input => (`${input[0]}=${input[1]}`)).join('&') 
         const {data} = await axios.get<{user: UserModel}>(`${Endpoint.USERS}/login?${query}`)
-        localStorage.setItem(Storage.USER_ID, data.user.id.toString())
+        if(data.user){
+            localStorage.setItem(Storage.USER_ID, data.user.id.toString())
+        }
+        
         return data.user
     }
 )
@@ -72,10 +75,18 @@ export const currenUserSlice = createSlice ({
     },
     extraReducers: (build) => {
         build
+            .addCase(createUser.pending, (state) => {
+                state.isLoading = true
+            })
             .addCase(createUser.fulfilled, (state, action) => {
+                state.isLoading = false
                 state.user = action.payload
             })
+            .addCase(login.pending, (state) => {
+                state.isLoading = true
+            })
             .addCase(login.fulfilled, (state, action) => {
+                state.isLoading = false
                 state.user = action.payload
             })
             .addCase(getMe.fulfilled, (state, action) => {

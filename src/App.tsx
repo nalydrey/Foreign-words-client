@@ -17,6 +17,7 @@ function App() {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const currentUser = useAppSelector(state => state.currentUser.user)
+  const userLoading = useAppSelector(state => state.currentUser.isLoading)
   
 
   useEffect(()=>{
@@ -48,12 +49,14 @@ function App() {
         <Route path={Path.SETTING} element= {<Setting/>}/>
         <Route path={Path.GAME} element= {<Game/>}/>
         <Route path={Path.LOGIN} element= {<UserForm 
+                                            isLoading ={userLoading}
                                             title="Login" 
                                             linkText="I don't have an account"
                                             pathTo={Path.REGISTER}
                                             onSubmit={handlerLogin}
                                           />}/>
         <Route path={Path.REGISTER} element= {<UserForm 
+                                                isLoading ={userLoading}
                                                 title="Register" 
                                                 linkText="I already have an account"
                                                 pathTo={Path.LOGIN}

@@ -19,6 +19,7 @@ export interface WordFields {
   }
 
   interface WebFormProps {
+    isLoading?: boolean  
     formName: string
     editedForm: WordFields
     editedWordId: number | null
@@ -27,6 +28,7 @@ export interface WordFields {
   }
 
 export const WordForm = ({
+    isLoading,
     formName,
     editedForm,
     editedWordId,
@@ -46,6 +48,8 @@ export const WordForm = ({
         initialValues,
         validationSchema,
         onSubmit: (form,func) => {
+          console.log('sub');
+          
           if(!form.category) form.category = 'none'
             onSubmit(form)
             func.resetForm()
@@ -77,10 +81,6 @@ export const WordForm = ({
       const handlerResetCategory = () => {
         formik.setFieldValue('category', '')
       }
-
-
-      console.log(formik.values);
-      
 
   return (
     <div className='grid grid-cols-1 md:grid-cols-2 gap-x-5 max-w-[1200px] w-full items-center p-2'>
@@ -118,14 +118,15 @@ export const WordForm = ({
         />
         <div className='flex gap-5 justify-center mt-5 md:mt-0'>
             <ButtonMain
+                isLoading = {isLoading}
                 startIcon={<ArrowUpCircleIcon className='text-green-500'/>}
-                form='word'
+                form={formName}
                 title='Save'
                 type='submit'
             />
             <ButtonMain
                 startIcon={<XCircleIcon className='text-red-600'/>}
-                form='word'
+                form={formName}
                 title='Cancel'
                 type='reset'
             />

@@ -14,6 +14,7 @@ const initialValues: FormModel = {
 }
 
 interface UserFormProps {
+  isLoading: boolean
   title: string
   pathTo?: string
   linkText?: string
@@ -21,6 +22,7 @@ interface UserFormProps {
 }
 
 export const UserForm = ({
+  isLoading,
   title,
   pathTo = '',
   linkText,
@@ -78,6 +80,7 @@ export const UserForm = ({
           />
           <div className='flex gap-5'>
             <ButtonMain
+              isLoading = {isLoading}
               type='submit'
               className='w-full'
               startIcon = {<PaperAirplaneIcon/>}

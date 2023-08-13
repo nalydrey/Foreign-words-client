@@ -92,6 +92,7 @@ export const Select = ({
 
 
     const handlerClickItem = (item: string) => {
+        setOpen(false)
         setCategory(item)
         onChangeItem(item)
         formik.handleReset('')

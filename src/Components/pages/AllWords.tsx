@@ -19,6 +19,7 @@ export const AllWords = () => {
   
   const dispatch = useAppDispatch()
   const words = useAppSelector(state => state.words.container)
+  const loadingWord = useAppSelector(state => state.words.isLoading)
   const currentUser = useAppSelector(state => state.currentUser.user)
 
 
@@ -72,6 +73,8 @@ export const AllWords = () => {
     }
   
     const handlerReset = () => {
+      console.log('r');
+      
       setOpen(false)
     }
 
@@ -93,6 +96,7 @@ export const AllWords = () => {
       </button>
       <div className={`absolute  md:hidden z-30 container shadow-deep border-gray-500  bg-gray-800/90 rounded-lg  ${isOpen ? 'top-0 -translate-y-0': 'top-0 -translate-y-full'} border duration-300` }>
         <WordForm
+          isLoading={loadingWord}
           formName='wordAbsolute'
           editedWordId={editId}
           editedForm={editForm}
@@ -102,6 +106,7 @@ export const AllWords = () => {
       </div>
       <div className={` hidden md:block`}>
         <WordForm
+          isLoading={loadingWord}
           formName='word'
           editedWordId={editId}
           editedForm={editForm}

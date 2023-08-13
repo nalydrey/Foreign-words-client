@@ -8,6 +8,7 @@ import { MetadataModel } from '../models/metadataModel'
 
 interface CounterState {
   container: WordModel[]
+  isLoading: boolean
 }
 
 
@@ -24,7 +25,8 @@ interface WordResp {
 
 
 const initialState: CounterState = {
-  container: []
+  container: [],
+  isLoading: false
 }
 
 
@@ -108,8 +110,12 @@ export const wordsSlice = createSlice({
   },
   extraReducers:(builder)=>{
     builder
+        .addCase(createWord.pending, (state) => {
+            state.isLoading = true
+        })
         .addCase(createWord.fulfilled, (state, action) => {
             state.container = [action.payload.word, ...state.container]
+            state.isLoading = false
         })
         .addCase(getWords.fulfilled, (state, action) => {
             state.container = action.payload.words.map(word => {
@@ -130,7 +136,11 @@ export const wordsSlice = createSlice({
                 word.meta = action.payload.metadata
             }
         })
+        .addCase(editWord.pending, (state) => {
+            state.isLoading = true
+        })
         .addCase(editWord.fulfilled, (state, action) => {
+            state.isLoading = false
             state.container = state.container.map(word => {
                 if(word.id === action.payload.word.id){
                    return action.payload.word
