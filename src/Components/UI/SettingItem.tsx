@@ -19,7 +19,7 @@ export const SettingItem = ({
 }: SettingItemProps) => {
   return (
     <div className='flex justify-between items-center border-b-2 py-2 gap-5'>
-        <h5 className='text-2xl font-bold text-sky-500'>{title}</h5>
+        <h5 className='text-xl font-bold text-sky-500'>{title}</h5>
         <Counter
             name={name}
             value={value}

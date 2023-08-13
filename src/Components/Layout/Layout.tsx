@@ -23,7 +23,7 @@ export const Layout = () => {
     <>
     <Header/>
       <main className="grow h-full overflow-hidden"><Outlet/></main>
-      <div className={`absolute w-screen h-screen duration-300 bg-black/80 flex flex-col ${app.menu ? 'top-0': '-top-full'}`}>
+      <div className={`absolute w-screen h-screen duration-300 bg-black/80 flex flex-col top-0 ${app.menu ? ' left-0': '-left-full'}`}>
         <div className=' border-b-2 p-2 border-white'>
           <RectButton
             icon={<XMarkIcon  className='text-red-600'/>}

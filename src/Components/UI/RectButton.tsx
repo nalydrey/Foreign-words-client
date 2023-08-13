@@ -11,7 +11,7 @@ export const RectButton = ({
 }: RectButtonProps) => {
   return (
     <button 
-        className='border w-10 h-10 rounded-lg duration-300 hover:bg-gray-500 active:bg-gray-700 p-1 shadow-light'
+        className='border w-8 h-8 ssm:h-10 ssm:w-10 rounded-lg duration-300 hover:bg-gray-500 active:bg-gray-700 p-1 shadow-light'
         onClick={onClick}
     >
         <div className='text-white w-full h-full'>

@@ -35,7 +35,7 @@ export const Setting = () => {
 
   return (
     <div className='h-full flex justify-center items-center'>
-      <div className='w-96 shadow-deep bg-gray-700/50 backdrop-blur-sm rounded-lg p-5 flex flex-col gap-5 items-center'>
+      <div className='max-w-[500px] mx-2 shadow-deep bg-gray-700/50 backdrop-blur-sm rounded-lg p-5 flex flex-col gap-5 items-center'>
         <h1 className='text-center text-4xl font-bold text-sky-600'>Settings</h1>
         {
           currentUser &&

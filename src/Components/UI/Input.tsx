@@ -2,6 +2,8 @@ import { EyeIcon, EyeSlashIcon } from '@heroicons/react/20/solid'
 import {ChangeEvent, ReactNode, FocusEvent, useState} from 'react'
 
 interface InputProps {
+    widthFull?: boolean
+    className?: string
     icon?: ReactNode
     name: string
     error?: string 
@@ -15,6 +17,8 @@ interface InputProps {
 
 
 export const Input = ({
+    widthFull,
+    className,
     icon,
     name,
     error,
@@ -34,10 +38,9 @@ export const Input = ({
     }
 
 
-
   return (
-    <div className=' overflow-hidden'>
-        <div className='relative flex gap-1 items-center bg-white/10 ackdrop-blur-sm backdrop-blur-sm rounded-lg px-2 overflow-hidden shadow-light'>
+    <div className={`overflow-hidden ${widthFull ? 'w-full':''}`}>
+        <div className={` relative flex gap-1 items-center bg-white/10 backdrop-blur-sm rounded-lg px-2 overflow-hidden shadow-light ${className}`}>
            {
             icon &&
             <label htmlFor={name} className={`w-9 sm:w-12 duration-300 ${mistakeColor}`}>
@@ -45,7 +48,7 @@ export const Input = ({
             </label>
            }
             <input 
-                className={`peer w-full py-2 px-2 text-xl sm:text-3xl outline-none ${mistakeColor} bg-transparent placeholder:text-sky-400/50`}
+                className={`peer w-full py-2 px-2 text-xl ssm:text-2xl lg:text-3xl outline-none ${mistakeColor} bg-transparent placeholder:text-sky-400/50`}
                 id = {name}
                 type={type === 'password'? isVisible ? 'text' : 'password' : type} 
                 name={name}
@@ -65,9 +68,9 @@ export const Input = ({
                     {isVisible ? <EyeIcon/> : <EyeSlashIcon/>}
                 </label>
             }
-            <span className={`absolute -z-10 ${!!error ? 'peer-focus:border-red-600': 'peer-focus:border-sky-600'} border-gray-600 border duration-300 w-full h-full top-0 left-0 rounded-lg`}/>
+            <span className={`absolute -z-10 ${!!error ? 'peer-focus:border-red-600': 'peer-focus:border-sky-600'} border-gray-500 border duration-300 w-full h-full top-0 left-0 rounded-lg`}/>
         </div>
-        <p className='text-red-500 min-h-[30px] text-xl text-center relative duration-300 -translate-x-0'>
+        <p className='text-red-500 min-h-[20px] ssm:min-h-[30px] text-md ssm:text-xl text-center relative duration-300 -translate-x-0'>
             {error}
         </p>
     </div>

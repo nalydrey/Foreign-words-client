@@ -15,7 +15,7 @@ export const Switch = ({
 
   return (
     <div className="flex flex-col items-center">
-        <h5>{title}</h5>
+        <h5 className="text-sm">{title}</h5>
         <button 
             className={`relative border border-gray-700 my-1 w-7 h-3 rounded-xl duration-300 ${value ? 'bg-green-700  ': 'bg-red-700'}`}
             onClick={()=>{onClick(!value)}}

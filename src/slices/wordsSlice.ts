@@ -75,7 +75,7 @@ export const getWords = createAsyncThunk(
 export const deleteWord = createAsyncThunk(
     'words/deleteWord',
     async (id: number) => {
-        const {data} = await axios.delete<{word: WordModel[]}>(`${Endpoint.WORDS}/${id}`)
+        await axios.delete<{word: WordModel[]}>(`${Endpoint.WORDS}/${id}`)
         return {id}
     }
 )

@@ -1,52 +1,40 @@
 import {useEffect, useState} from 'react'
 import { WordItem } from '../UI/WordItem'
-import { useFormik } from 'formik'
-import {object, string} from 'yup'
 import { useAppDispatch, useAppSelector } from '../../hooks/toolkitHooks'
 import { changeStatus, createWord, deleteWord, editWord, getWords } from '../../slices/wordsSlice'
-
-
-export interface WordFields {
-  foreignText: string
-  translatedText: string
-}
+import { WordFields, WordForm } from '../Boxes/WordForm'
+import { ChevronDoubleDownIcon } from '@heroicons/react/20/solid'
 
 const initialValues: WordFields = {
   foreignText: '',
-  translatedText: ''
+  translatedText: '',
+  category: 'not chosen'
 }
 
+
 export const AllWords = () => {
+
+  
   
   
   const dispatch = useAppDispatch()
   const words = useAppSelector(state => state.words.container)
+  const currentUser = useAppSelector(state => state.currentUser.user)
+
 
   const [editId, setEditId] = useState<null | number>(null)
+  const [editForm, setEditForm] = useState<WordFields>(initialValues)
+  const [isOpen, setOpen] = useState<boolean>(false)
+  
+
   
     useEffect(()=>{
       dispatch(getWords(''))
     },[])
 
-  const validationSchema =  object({
-    foreignText: string().required('Поле должно быть заполнено'),
-    translatedText: string().required('Поле должно быть заполнено'),
-  })
+ 
 
-  const formik = useFormik({
-    initialValues,
-    validationSchema,
-    onSubmit: (form,func) => {
-      if(editId){
-        dispatch(editWord({id: editId,  word:{category:'sss', ...form}}))
-      }
-      else{
-        dispatch(createWord({userId: 1, word:{category:'sss', ...form}}))
-      }
-      setEditId(null)
-      func.resetForm()
-    },
-  })
+
 
   const handlerChangeLearn = (id: number, needsToLearn: boolean) => {
     dispatch(changeStatus({id, needsToLearn}))
@@ -59,55 +47,65 @@ export const AllWords = () => {
     dispatch(deleteWord(id))    
   }
  
+
   const handlerEdit = (id: number, obj:WordFields) => {
-    // dispatch(deleteWord(id))   
-    Object.entries(obj).forEach(field => {
-        formik.setFieldValue(field[0], field[1])
-    })
+    console.log(obj);
+    
+    setEditForm(obj)
     setEditId(id)
   }
 
+    const handlerSubmit = (form: WordFields) => {
+      
+      if(editId){
+        dispatch(editWord({id: editId,  word:{...form}}))
+      }
+      else{
+        currentUser &&
+        dispatch(createWord({userId: currentUser.id, word:{...form}}))
+      }
+      setEditId(null)
+      setEditForm(initialValues)
+      setOpen(false)
+    }
   
+    const handlerReset = () => {
+      console.log('reset');
+      setOpen(false)
+    }
+
+ 
 
   return (
-   <div className='container mx-auto flex flex-col h-full'>
-      <form 
-        className='flex justify-center gap-5 mt-5 mb-10' 
-        onSubmit={formik.handleSubmit}
-        onReset={formik.handleReset}
+   <div className='container mx-auto flex flex-col gap-5 items-center h-full '>
+      <button 
+        className={`bg-gray-700/60 md:hidden  w-full border border-gray-500 shadow-deep rounded-b-lg mt-1 backdrop-blur-sm text-sky-500 flex justify-between items-center max-w-3xl`}
+        onClick={()=>{setOpen(!isOpen)}}
       >
-        <input 
-          className='p-2 outline-2 rounded-lg min-w-[130px] text-2xl font-medium border-4 border-sky-700 focus:outline focus:outline-sky-500'
-          type="text"
-          name ="foreignText"  
-          onChange={formik.handleChange}               
-          value={formik.values.foreignText}
-          placeholder='foreign'
+        <div className={`w-10 h-10 duration-500 ${isOpen? ' -rotate-180':''}`}>
+          <ChevronDoubleDownIcon/>
+        </div>
+        <span className='text-lg font-bold'>Add New Word</span>
+        <div className={`w-10 h-10  duration-500 ${isOpen? ' rotate-180':''}`}>
+          <ChevronDoubleDownIcon/>
+        </div>
+      </button>
+      <div className={`absolute  md:hidden z-30 container shadow-deep border-gray-500  bg-gray-800/90 rounded-lg  ${isOpen ? 'top-0 -translate-y-0': 'top-0 -translate-y-full'} border duration-300` }>
+        <WordForm
+          editedWordId={editId}
+          editedForm={editForm}
+          onSubmit={handlerSubmit}
+          onReset={handlerReset}
         />
-          
-        <input 
-          className='p-2 outline-2 rounded-lg min-w-[130px] text-2xl font-medium border-4 border-sky-700 focus:outline focus:outline-sky-500'
-          type="text" 
-          name ="translatedText"  
-          onChange={formik.handleChange}      
-          value={formik.values.translatedText}
-          placeholder='native'
+      </div>
+      <div className={` hidden md:block`}>
+        <WordForm
+          editedWordId={editId}
+          editedForm={editForm}
+          onSubmit={handlerSubmit}
         />
-          
-        <button 
-          className='border border-gray-300 px-10 py-2 rounded-lg min-w-[130px] text-2xl font-medium hover:bg-gray-600 active:bg-gray-700'
-          type='submit'
-        >
-          Save
-        </button>
-        <button 
-          className='border border-gray-300 px-10 py-2 rounded-lg min-w-[130px] text-2xl font-medium hover:bg-gray-600 active:bg-gray-700'
-          type='reset'
-        >
-          Cancel
-        </button>
-      </form>
-      <div className='flex flex-col items-center gap-5 h-full overflow-auto pt-14'>
+      </div>
+      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 w-full gap-5 h-full justify-items-center overflow-auto px-3'>
         {
           !!words.length ?
           words.map(word => 

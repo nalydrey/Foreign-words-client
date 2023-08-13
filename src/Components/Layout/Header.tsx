@@ -26,7 +26,7 @@ export const Header = () => {
 
   return (
     <header className="bg-blue-500/60">
-      <div className=" container mx-auto flex justify-between items-center py-2">
+      <div className=" container mx-auto flex justify-between items-center py-2 px-2">
         <div className='text-2xl lg:text-5xl font-bold text-sky-900 cursor-pointer hover:text-sky-300 '>
           <Link to={Path.HOME}>LOGO</Link>
         </div>
@@ -59,16 +59,16 @@ export const Header = () => {
         {
           location.pathname === Path.GAME &&
           <button 
-            className='w-10 h-10 border p-[2px] rounded-lg bg-gray-700/50 text-white shadow-light md:hidden'
+            className='w-8 h-8 border p-[2px] rounded-lg bg-gray-700/50 text-white shadow-light md:hidden'
             onClick={handlerMenu}
           >
             <Bars3Icon />
           </button>
         }
         
-        <div className='h-10 w-10 md:h-14 md:w-14 rounded-full shadow-2xl cursor-pointer overflow-hidden'>
+        {/* <div className='h-10 w-10 md:h-14 md:w-14 rounded-full shadow-2xl cursor-pointer overflow-hidden'>
           <img src={avatar} alt="" />
-        </div>
+        </div> */}
       </div>
     </header>
   )

@@ -22,8 +22,8 @@ export const Counter = ({
             icon={<MinusIcon/>}
             onClick={()=>onMinus(name, value)}
         />
-        <div className='border min-w-[80px] rounded-lg bg-black/50 flex justify-center items-center p-1'>
-            <span className='text-green-500 text-2xl font-medium'>{typeof value === 'boolean' ? value ? 'On' : 'Off' : value}</span>
+        <div className='border min-w-[80px] rounded-lg bg-black/50 flex justify-center ssm:p-1 '>
+            <span className='text-green-500 text-lg ssm:text-2xl font-medium'>{typeof value === 'boolean' ? value ? 'On' : 'Off' : value}</span>
         </div>
         <RectButton
             icon={<PlusIcon/>}
