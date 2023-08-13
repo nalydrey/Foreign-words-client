@@ -1,4 +1,3 @@
-import React from 'react'
 import { RectButton } from './RectButton'
 import { MinusIcon, PlusIcon } from '@heroicons/react/20/solid'
 

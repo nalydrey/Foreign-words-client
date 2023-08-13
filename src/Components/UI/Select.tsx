@@ -71,7 +71,6 @@ export const Select = ({
         },
         onReset: () => {
             setList(initialList)
-            onReset()
         }
     })
 
@@ -101,6 +100,7 @@ export const Select = ({
     const handleReset = () => {
         setCategory(firtText)
         formik.handleReset('')
+        onReset()
     }
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {

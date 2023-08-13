@@ -2,7 +2,7 @@ import {Outlet} from 'react-router-dom'
 import { Header } from './Header'
 import { useAppDispatch, useAppSelector } from '../../hooks/toolkitHooks'
 import { RectButton } from '../UI/RectButton'
-import { LockClosedIcon, XMarkIcon } from '@heroicons/react/20/solid'
+import { XMarkIcon } from '@heroicons/react/20/solid'
 import { AppSliceInt, menuControl, selectMode } from '../../slices/appSlice'
 
 export const Layout = () => {

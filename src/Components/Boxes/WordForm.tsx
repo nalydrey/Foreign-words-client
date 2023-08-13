@@ -19,6 +19,7 @@ export interface WordFields {
   }
 
   interface WebFormProps {
+    formName: string
     editedForm: WordFields
     editedWordId: number | null
     onSubmit: (form: WordFields) => void
@@ -26,6 +27,7 @@ export interface WordFields {
   }
 
 export const WordForm = ({
+    formName,
     editedForm,
     editedWordId,
     onSubmit,
@@ -36,19 +38,19 @@ export const WordForm = ({
 
 
     const validationSchema =  object({
-        foreignText: string().required('Поле должно быть заполнено'),
-        translatedText: string().required('Поле должно быть заполнено'),
+        foreignText: string().required('This field must be filled'),
+        translatedText: string().required('This field must be filled'),
       })
 
     const formik = useFormik({
         initialValues,
         validationSchema,
         onSubmit: (form,func) => {
+          if(!form.category) form.category = 'none'
             onSubmit(form)
             func.resetForm()
         },
         onReset: () => {
-          
           onReset()
         }
       })
@@ -73,15 +75,17 @@ export const WordForm = ({
       }
     
       const handlerResetCategory = () => {
-        formik.setFieldValue('category', 'not chosen')
+        formik.setFieldValue('category', '')
       }
 
+
+      console.log(formik.values);
       
 
   return (
     <div className='grid grid-cols-1 md:grid-cols-2 gap-x-5 max-w-[1200px] w-full items-center p-2'>
         <form 
-            id='word'
+            id={formName}
             className=' col-span-1 md:col-span-2 flex flex-col md:flex-row md:gap-5 w-full' 
             onSubmit={formik.handleSubmit}
             onReset={formik.handleReset}
@@ -119,7 +123,6 @@ export const WordForm = ({
                 title='Save'
                 type='submit'
             />
-
             <ButtonMain
                 startIcon={<XCircleIcon className='text-red-600'/>}
                 form='word'

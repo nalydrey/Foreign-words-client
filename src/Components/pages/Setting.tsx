@@ -1,9 +1,7 @@
-import React from 'react'
 import { useAppDispatch, useAppSelector } from '../../hooks/toolkitHooks'
-import { Counter } from '../UI/Counter'
 import { SettingItem } from '../UI/SettingItem'
 import { ButtonMain } from '../UI/ButtonMain'
-import { ArrowDownIcon, ArrowDownTrayIcon } from '@heroicons/react/20/solid'
+import { ArrowDownTrayIcon } from '@heroicons/react/20/solid'
 import { changeSetting, toggleSetting } from '../../slices/currentUserSlice'
 import { Settings } from '../../models/settingModel'
 

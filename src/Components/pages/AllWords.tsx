@@ -56,6 +56,8 @@ export const AllWords = () => {
   }
 
     const handlerSubmit = (form: WordFields) => {
+      console.log('onSubmit');
+      
       
       if(editId){
         dispatch(editWord({id: editId,  word:{...form}}))
@@ -70,7 +72,6 @@ export const AllWords = () => {
     }
   
     const handlerReset = () => {
-      console.log('reset');
       setOpen(false)
     }
 
@@ -92,6 +93,7 @@ export const AllWords = () => {
       </button>
       <div className={`absolute  md:hidden z-30 container shadow-deep border-gray-500  bg-gray-800/90 rounded-lg  ${isOpen ? 'top-0 -translate-y-0': 'top-0 -translate-y-full'} border duration-300` }>
         <WordForm
+          formName='wordAbsolute'
           editedWordId={editId}
           editedForm={editForm}
           onSubmit={handlerSubmit}
@@ -100,12 +102,13 @@ export const AllWords = () => {
       </div>
       <div className={` hidden md:block`}>
         <WordForm
+          formName='word'
           editedWordId={editId}
           editedForm={editForm}
           onSubmit={handlerSubmit}
         />
       </div>
-      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 w-full gap-5 h-full justify-items-center overflow-auto px-3'>
+      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 w-full gap-5 max-h-full justify-items-center overflow-auto px-3'>
         {
           !!words.length ?
           words.map(word => 
