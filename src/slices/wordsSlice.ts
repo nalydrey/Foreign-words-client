@@ -5,9 +5,11 @@ import { Endpoint } from '../enums/Endpoints'
 import { shuffle } from '../functions/shuffle'
 import { WritableDraft } from 'immer/dist/internal.js'
 import { MetadataModel } from '../models/metadataModel'
+import { RootState } from '../store/store'
 
 interface CounterState {
   container: WordModel[]
+  categories: string[]
   isLoading: boolean
 }
 
@@ -26,6 +28,7 @@ interface WordResp {
 
 const initialState: CounterState = {
   container: [],
+  categories: ['person'],
   isLoading: false
 }
 
@@ -65,12 +68,20 @@ export const editWord = createAsyncThunk(
     }
 )
 
-export const getWords = createAsyncThunk(
+export const getWords = createAsyncThunk<{words: WordModel[], category: string[]}, string, {state: RootState}>(
     'words/getWords',
-    
-    async (query?: string) => {
-        const {data} = await axios.get<{words: WordModel[]}>(`${Endpoint.WORDS}?${query}`)
-        return {words: data.words}
+    async (query, {getState}) => {
+        const state = getState()
+        const userId = state.currentUser.user?.id
+        if(userId){
+            const {data} = await axios.get<{words: WordModel[], category: string[]}>(`${Endpoint.WORDS}/my/${userId}?${query}`)
+            console.log(data);
+            
+            return {words: data.words, category: data.category}
+        }
+        else {
+            return {words: [], category: []}
+        }
     }
 )
 
@@ -104,9 +115,9 @@ export const wordsSlice = createSlice({
             elem.direction = !elem.direction
         }
     },
-    answer: (state, action: PayloadAction<{id: number, isProperly: boolean}>) => {
-      
-    }
+    addCategory: (state, action: PayloadAction<string>) => {
+       state.categories = [action.payload, ...state.categories]
+    },
   },
   extraReducers:(builder)=>{
     builder
@@ -118,6 +129,7 @@ export const wordsSlice = createSlice({
             state.isLoading = false
         })
         .addCase(getWords.fulfilled, (state, action) => {
+            state.categories = action.payload.category
             state.container = action.payload.words.map(word => {
                 word.direction = false
                 return word
@@ -127,10 +139,6 @@ export const wordsSlice = createSlice({
             state.container = state.container.filter(word => word.id !== action.payload.id)
         })
         .addCase(changeStatus.fulfilled, (state, action) => {
-             console.log(action.payload.id);
-             console.log(action.payload.metadata);
-             
-            
             let word = state.container.find(word => word.id === action.payload.id)
             if(word){
                 word.meta = action.payload.metadata
@@ -152,6 +160,6 @@ export const wordsSlice = createSlice({
   }
 })
 
-export const { confuseDirectionAndWords, reverseDirection, answer } = wordsSlice.actions
+export const { confuseDirectionAndWords, reverseDirection, addCategory } = wordsSlice.actions
 
 export default wordsSlice.reducer

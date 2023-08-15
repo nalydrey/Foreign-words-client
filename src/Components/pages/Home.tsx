@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Path } from '../../enums/Path'
 import { useAppDispatch, useAppSelector } from '../../hooks/toolkitHooks'
-import { logOut } from '../../slices/currentUserSlice'
+import { logOut, login } from '../../slices/currentUserSlice'
 
 export const Home = () => {
 
@@ -10,6 +10,10 @@ export const Home = () => {
 
   const handlerLogOut = () => {
     dispatch(logOut())
+  }
+
+  const handlerDemo = () => {
+    dispatch(login({nikName: 'Guest', password: 'guest'}))
   }
 
 
@@ -24,6 +28,11 @@ export const Home = () => {
                 </li>
                 <li className='hover:text-green-500 cursor-pointer duration-150 font-medium'>
                   <Link to={Path.LOGIN}>Log In</Link>
+                </li>
+                <li className='hover:text-green-500 cursor-pointer duration-150 font-medium'
+                  onClick={handlerDemo}
+                >
+                  Demo
                 </li>
               </>
             }

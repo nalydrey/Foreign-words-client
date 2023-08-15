@@ -163,6 +163,7 @@ export const Select = ({
                         list.map(item => {
                             return(
                                 <li 
+                                    key={item}
                                     className='duration-300 text-sky-500 text-center border-b-gray-600 text-xl ssm:text-2xl lg:text-3xl border-b  hover:border-b-sky-500 shadow-light p-1 rounded-xl bg-gray-500/70'
                                     onClick = {() => handlerClickItem(item)}
                                 >

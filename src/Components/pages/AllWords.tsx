@@ -50,16 +50,12 @@ export const AllWords = () => {
  
 
   const handlerEdit = (id: number, obj:WordFields) => {
-    console.log(obj);
-    
+    setOpen(true)
     setEditForm(obj)
     setEditId(id)
   }
 
     const handlerSubmit = (form: WordFields) => {
-      console.log('onSubmit');
-      
-      
       if(editId){
         dispatch(editWord({id: editId,  word:{...form}}))
       }
@@ -73,8 +69,6 @@ export const AllWords = () => {
     }
   
     const handlerReset = () => {
-      console.log('r');
-      
       setOpen(false)
     }
 

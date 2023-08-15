@@ -78,30 +78,32 @@ export const Game = () => {
     }
 
     useEffect (()=> {
-        switch(app.mode){
-            case 'all': {
-                dispatch(getWords(''))
-                break
-            }
-            case 'new only': {
-                dispatch(getWords('meta.isNew=true'))
-                break
-            }
-            case 'old only': {
-                dispatch(getWords('meta.isNew=false'))
-                break
-            }
-            case 'learn': {
-                dispatch(getWords('meta.needsToLearn=true&_take=10'))
-                break
-            }
-            case 'last new': {
-                dispatch(getWords(`meta.isNew=true&_take=${currentUser?.settings.lastWords}`))
-                break
-            }
-            case 'last old': {
-                dispatch(getWords(`meta.isNew=false&_take=${currentUser?.settings.lastWords}`))
-                break
+        if(currentUser){
+            switch(app.mode){
+                case 'all': {
+                    dispatch(getWords(''))
+                    break
+                }
+                case 'new only': {
+                    dispatch(getWords('meta.isNew=true'))
+                    break
+                }
+                case 'old only': {
+                    dispatch(getWords('meta.isNew=false'))
+                    break
+                }
+                case 'learn': {
+                    dispatch(getWords(`meta.needsToLearn=true&_take=${currentUser.settings.learnBy}`))
+                    break
+                }
+                case 'last new': {
+                    dispatch(getWords(`meta.isNew=true&_take=${currentUser.settings.repeatBy}`))
+                    break
+                }
+                case 'last old': {
+                    dispatch(getWords(`meta.isNew=false&_take=${currentUser.settings.repeatBy}`))
+                    break
+                }
             }
         }
         setState(initialState)

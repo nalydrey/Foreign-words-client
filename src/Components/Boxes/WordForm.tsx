@@ -5,6 +5,8 @@ import { Select } from '../UI/Select'
 import { useFormik } from 'formik'
 import {object, string} from 'yup'
 import { ButtonMain } from '../UI/ButtonMain'
+import { useAppDispatch, useAppSelector } from '../../hooks/toolkitHooks'
+import { addCategory } from '../../slices/wordsSlice'
 
 export interface WordFields {
     foreignText: string
@@ -36,7 +38,9 @@ export const WordForm = ({
     onReset = () => {}
 }: WebFormProps) => {
 
-    const [list, setList] = useState<string[]>(['person', 'nature', 'home', 'cars'])
+    const list = useAppSelector(state => state.words.categories)
+    const dispatch = useAppDispatch()
+
 
 
     const validationSchema =  object({
@@ -75,7 +79,7 @@ export const WordForm = ({
     
       const handlerAddNewCategory = (item: string) => {
         formik.setFieldValue('category', item)
-        setList([item, ...list])
+        dispatch(addCategory(item))
       }
     
       const handlerResetCategory = () => {

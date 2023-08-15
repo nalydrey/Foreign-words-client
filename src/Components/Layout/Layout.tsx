@@ -3,12 +3,14 @@ import { Header } from './Header'
 import { useAppDispatch, useAppSelector } from '../../hooks/toolkitHooks'
 import { RectButton } from '../UI/RectButton'
 import { XMarkIcon } from '@heroicons/react/20/solid'
-import { AppSliceInt, menuControl, selectMode } from '../../slices/appSlice'
+import { AppSliceInt, menuControl, selectMode, setMessage } from '../../slices/appSlice'
+import { InfoMessage } from '../UI/InfoMessage'
 
 export const Layout = () => {
 
   const app = useAppSelector(state => state.app)
   const dispatch = useAppDispatch()
+
 
   const handlerMode = (mode: AppSliceInt['mode']) => {
     dispatch(selectMode(mode))
@@ -17,6 +19,10 @@ export const Layout = () => {
 
   const handlerMenu = () => {
     dispatch(menuControl(false))
+  }
+
+  const hendlerHideInfo = () => {
+    dispatch(setMessage(''))
   }
 
   return (
@@ -53,6 +59,10 @@ export const Layout = () => {
           </ul>
         </div>
       </div>
+      <InfoMessage
+        text={app.message}
+        onHide={hendlerHideInfo}
+      />
   </>
   )
 }
