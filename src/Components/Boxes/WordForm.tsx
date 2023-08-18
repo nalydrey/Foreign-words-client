@@ -98,7 +98,7 @@ export const WordForm = ({
             widthFull
             name='foreignText'
             icon ={<ArrowUturnRightIcon/>}
-            placeholder='enter foreign word'
+            placeholder='enter a foreign word'
             value={formik.values.foreignText}
             onChange={formik.handleChange}
             />
@@ -106,7 +106,7 @@ export const WordForm = ({
             widthFull
             name='translatedText'
             icon ={<ArrowUturnLeftIcon/>}
-            placeholder='enter native word'
+            placeholder='enter a native word'
             value={formik.values.translatedText}
             onChange={formik.handleChange}
             />

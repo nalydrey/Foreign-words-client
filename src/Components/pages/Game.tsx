@@ -167,13 +167,13 @@ export const Game = () => {
 
   return (
     <div className='container mx-auto'>
-        <div className='mb-10 lg:mb-52 mt-5 flex justify-center gap-5 flex-wrap  md:gap-20'>
+        <div className='mb-10 lg:mb-52 mt-5 grid grid-cols-3 gap-2 ssm:gap-5  md:gap-20 px-1 justify-items-center'>
             <CountDisplay 
                 title = 'Words'
                 counter = {words.length}
              />
             <CountDisplay 
-                title = 'Current Word'
+                title = 'Counter'
                 counter = {currentWord}
              />
             <CountDisplay 

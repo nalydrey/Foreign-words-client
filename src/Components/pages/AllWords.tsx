@@ -122,7 +122,7 @@ export const AllWords = () => {
             />
           )
           :
-          <p className='text-5xl'>No words, while</p>
+          <p className='text-5xl'>No words so far</p>
         }
       </div>
    </div>
